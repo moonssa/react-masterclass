@@ -1,8 +1,21 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
 
+const Title = styled.h1`
+  color: tomato;
+  &:hover {
+    color: teal;
+  }
+`;
 const Wrapper = styled.div`
   display: flex;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  ${Title}:hover {
+    font-size: 99px;
+  }
 `;
 const rotateAnimation = keyframes`
   0% {
@@ -18,6 +31,9 @@ const rotateAnimation = keyframes`
     border-radius: 0px;
   }
 `;
+const Emoji = styled.span`
+  font-size: 56px;
+`;
 const Box = styled.div`
   display: flex;
   justify-content: center;
@@ -26,10 +42,9 @@ const Box = styled.div`
   width: 200px;
   background-color: tomato;
   animation: ${rotateAnimation} 1s linear infinite;
-  span {
-    font-size: 56px;
+  ${Emoji} {
     &:hover {
-      font-size: 100px;
+      font-size: 150px;
     }
     &:active {
       opacity: 0;
@@ -39,8 +54,10 @@ const Box = styled.div`
 function App() {
   return (
     <Wrapper>
+      <Title>Hello</Title>
+      <Title as="h3">Me</Title>
       <Box>
-        <span>🤩</span>
+        <Emoji>🤩</Emoji>
       </Box>
     </Wrapper>
   );
