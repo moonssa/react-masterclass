@@ -2,9 +2,9 @@ import React from "react";
 import styled, { keyframes } from "styled-components";
 
 const Title = styled.h1`
-  color: tomato;
+  color: ${(props) => props.theme.textColor};
   &:hover {
-    color: teal;
+    color: red;
   }
 `;
 const Wrapper = styled.div`
@@ -13,9 +13,7 @@ const Wrapper = styled.div`
   height: 100vh;
   justify-content: center;
   align-items: center;
-  ${Title}:hover {
-    font-size: 99px;
-  }
+  background-color: ${(props) => props.theme.backgroundColor};
 `;
 const rotateAnimation = keyframes`
   0% {
@@ -55,10 +53,6 @@ function App() {
   return (
     <Wrapper>
       <Title>Hello</Title>
-      <Title as="h3">Me</Title>
-      <Box>
-        <Emoji>🤩</Emoji>
-      </Box>
     </Wrapper>
   );
 }
