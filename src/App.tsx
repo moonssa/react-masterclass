@@ -15,12 +15,31 @@ const Circle = styled(Box)`
   border-radius: 50px;
 `;
 
+const Btn = styled.button`
+  padding: 10px;
+  color: white;
+  background-color: tomato;
+  border: 0;
+  border-radius: 15px;
+`;
+
+const Input = styled.input.attrs({ required: true })`
+  background-color: tomato;
+`;
 function App() {
   return (
-    <Father>
+    <Father as="header">
+      <Input />
+      <Input />
+      <Input />
+      <Input />
+      {/* <Btn>Login</Btn>
+      <Btn as="a" href="/">
+        Login
+      </Btn>
       <Box bgColor="teal" />
       <Box bgColor="orange" />
-      <Circle bgColor="tomato" />
+      <Circle bgColor="tomato" /> */}
     </Father>
   );
 }
