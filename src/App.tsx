@@ -1,46 +1,48 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
-const Father = styled.div`
+const Wrapper = styled.div`
   display: flex;
 `;
+const rotateAnimation = keyframes`
+  0% {
+    transform: rotate(0deg);
+    border-radius: 0px;
+  }
+  50% {
+    border-radius: 100px;
 
-const Box = styled.div<{ bgColor: string }>`
-  background-color: ${(props) => props.bgColor};
-  width: 100px;
-  height: 100px;
+  }
+  100% {
+    transform: rotate(360deg);
+    border-radius: 0px;
+  }
 `;
-
-const Circle = styled(Box)`
-  border-radius: 50px;
-`;
-
-const Btn = styled.button`
-  padding: 10px;
-  color: white;
+const Box = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  width: 200px;
   background-color: tomato;
-  border: 0;
-  border-radius: 15px;
-`;
-
-const Input = styled.input.attrs({ required: true })`
-  background-color: tomato;
+  animation: ${rotateAnimation} 1s linear infinite;
+  span {
+    font-size: 56px;
+    &:hover {
+      font-size: 100px;
+    }
+    &:active {
+      opacity: 0;
+    }
+  }
 `;
 function App() {
   return (
-    <Father as="header">
-      <Input />
-      <Input />
-      <Input />
-      <Input />
-      {/* <Btn>Login</Btn>
-      <Btn as="a" href="/">
-        Login
-      </Btn>
-      <Box bgColor="teal" />
-      <Box bgColor="orange" />
-      <Circle bgColor="tomato" /> */}
-    </Father>
+    <Wrapper>
+      <Box>
+        <span>🤩</span>
+      </Box>
+    </Wrapper>
   );
 }
 
