@@ -25,14 +25,22 @@ const Coin = styled.li`
   border-radius: 15px;
   margin-bottom: 10px;
   a {
+    /* 이것이 Link 니까 coin과 img의 부모 */
+    display: flex;
+    padding: 10px;
+    align-items: center;
     transition: color 0.2s ease-in;
-    display: block;
   }
   &:hover a {
     color: ${(props) => props.theme.accentColor};
   }
 `;
 
+const Img = styled.img`
+  width: 25px;
+  height: 25px;
+  margin-right: 10px;
+`;
 interface CoinInterface {
   id: string;
   name: string;
@@ -68,7 +76,18 @@ function Coins() {
           {coins.map((coin) => (
             <Coin key={coin.id}>
               {" "}
-              <Link to={`/${coin.id}`}>{coin.name} &rarr;</Link>
+              {/* <Link to={`/${coin.id}`}> */}
+              <Link
+                to={{
+                  pathname: `/${coin.id}`,
+                  state: { name: coin.name },
+                }}
+              >
+                <Img
+                  src={`https://cryptocurrencyliveprices.com/img/${coin.id}.png`}
+                />
+                {coin.name} &rarr;
+              </Link>
             </Coin>
           ))}
         </CoinsList>
