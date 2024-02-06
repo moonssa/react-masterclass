@@ -50,11 +50,20 @@ function Chart({ coinId }: ChartProps) {
               width: 4,
             },
             grid: { show: false },
+            fill: {
+              type: "gradient",
+              gradient: { gradientToColors: ["#00a8ff"], stops: [0, 100] },
+            },
+            colors: ["#e84118"],
             yaxis: { show: false },
             xaxis: {
               labels: { show: false },
               axisTicks: { show: false },
               axisBorder: { show: false },
+              type: "datetime",
+              categories: data?.map((price) =>
+                new Date(price.time_close * 1000).toISOString()
+              ),
             },
           }}
         />
