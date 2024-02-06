@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import {
   Link,
   Route,
@@ -156,8 +155,8 @@ function Coin() {
   const { coinId } = useParams<RouteParams>();
   // const [loading, setLoading] = useState(true);
   const { state } = useLocation<RouteState>();
-  const [info, setInfo] = useState<InfoData>();
-  const [priceInfo, setPrice] = useState<PriceData>();
+  // const [info, setInfo] = useState<InfoData>();
+  // const [priceInfo, setPrice] = useState<PriceData>();
   const priceMatch = useRouteMatch(`/:coinId/price`);
   const chartMatch = useRouteMatch(`/:coinId/chart`);
   console.log(priceMatch, chartMatch);
@@ -193,7 +192,7 @@ function Coin() {
     <Container>
       <Header>
         <Title>
-          {state?.name ? state.name : loading ? "Loading..." : info?.name}
+          {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
         </Title>
       </Header>
       {loading ? (
@@ -203,15 +202,15 @@ function Coin() {
           <Overview>
             <OverviewItem>
               <span>Rank:</span>
-              <span>{info?.rank}</span>
+              <span>{infoData?.rank}</span>
             </OverviewItem>
             <OverviewItem>
               <span>Symbol:</span>
-              <span>{info?.symbol}</span>
+              <span>{infoData?.symbol}</span>
             </OverviewItem>
             <OverviewItem>
               <span>Open Source:</span>
-              <span>{info?.open_source ? "Yes" : "No"}</span>
+              <span>{infoData?.open_source ? "Yes" : "No"}</span>
             </OverviewItem>
           </Overview>
           <Description>{infoData?.description}</Description>
@@ -238,7 +237,7 @@ function Coin() {
               <Price />
             </Route>
             <Route path={`/${coinId}/chart`}>
-              <Chart />
+              <Chart coinId={coinId} />
             </Route>
           </Switch>
         </>
