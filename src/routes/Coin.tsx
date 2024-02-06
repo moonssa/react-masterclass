@@ -10,6 +10,8 @@ import {
 import styled from "styled-components";
 import Price from "./Price";
 import Chart from "./Chart";
+import { useQuery } from "react-query";
+import { fetchCoinInfo, fetchCoinTickers } from "../api";
 
 const Title = styled.h1`
   font-size: 42px;
@@ -152,13 +154,23 @@ interface PriceData {
 
 function Coin() {
   const { coinId } = useParams<RouteParams>();
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const { state } = useLocation<RouteState>();
   const [info, setInfo] = useState<InfoData>();
   const [priceInfo, setPrice] = useState<PriceData>();
   const priceMatch = useRouteMatch(`/:coinId/price`);
   const chartMatch = useRouteMatch(`/:coinId/chart`);
   console.log(priceMatch, chartMatch);
+
+  const { isLoading: InfoLoading, data: infoData } = useQuery<InfoData>(
+    ["info", coinId],
+    () => fetchCoinInfo(coinId)
+  );
+  const { isLoading: tickersLoading, data: tickersData } = useQuery<PriceData>(
+    ["tickers", coinId],
+    () => fetchCoinTickers(coinId)
+  );
+  /*
   useEffect(() => {
     (async () => {
       const infoData = await (
@@ -174,6 +186,9 @@ function Coin() {
       setLoading(false);
     })();
   }, []);
+	*/
+  const loading = InfoLoading || tickersLoading;
+
   return (
     <Container>
       <Header>
@@ -199,15 +214,15 @@ function Coin() {
               <span>{info?.open_source ? "Yes" : "No"}</span>
             </OverviewItem>
           </Overview>
-          <Description>{info?.description}</Description>
+          <Description>{infoData?.description}</Description>
           <Overview>
             <OverviewItem>
               <span>total supply:</span>
-              <span>{priceInfo?.total_supply}</span>
+              <span>{tickersData?.total_supply}</span>
             </OverviewItem>
             <OverviewItem>
               <span>max supply:</span>
-              <span>{priceInfo?.max_supply}</span>
+              <span>{tickersData?.max_supply}</span>
             </OverviewItem>
           </Overview>
           <Tabs>
