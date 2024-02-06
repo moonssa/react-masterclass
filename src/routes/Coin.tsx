@@ -6,10 +6,12 @@ import {
   useParams,
   useRouteMatch,
 } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import styled from "styled-components";
 import Price from "./Price";
 import Chart from "./Chart";
 import { useQuery } from "react-query";
+
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
 
 const Title = styled.h1`
@@ -153,10 +155,7 @@ interface PriceData {
 
 function Coin() {
   const { coinId } = useParams<RouteParams>();
-  // const [loading, setLoading] = useState(true);
   const { state } = useLocation<RouteState>();
-  // const [info, setInfo] = useState<InfoData>();
-  // const [priceInfo, setPrice] = useState<PriceData>();
   const priceMatch = useRouteMatch(`/:coinId/price`);
   const chartMatch = useRouteMatch(`/:coinId/chart`);
   console.log(priceMatch, chartMatch);
@@ -167,29 +166,21 @@ function Coin() {
   );
   const { isLoading: tickersLoading, data: tickersData } = useQuery<PriceData>(
     ["tickers", coinId],
-    () => fetchCoinTickers(coinId)
+    () => fetchCoinTickers(coinId),
+    {
+      refetchInterval: 10000,
+    }
   );
-  /*
-  useEffect(() => {
-    (async () => {
-      const infoData = await (
-        await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)
-      ).json();
-      console.log(infoData);
-      const priceData = await (
-        await fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`)
-      ).json();
-      console.log(priceData);
-      setInfo(infoData);
-      setPrice(priceData);
-      setLoading(false);
-    })();
-  }, []);
-	*/
+
   const loading = InfoLoading || tickersLoading;
 
   return (
     <Container>
+      <Helmet>
+        <title>
+          {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
+        </title>
+      </Helmet>
       <Header>
         <Title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
@@ -209,8 +200,8 @@ function Coin() {
               <span>{infoData?.symbol}</span>
             </OverviewItem>
             <OverviewItem>
-              <span>Open Source:</span>
-              <span>{infoData?.open_source ? "Yes" : "No"}</span>
+              <span>Price :</span>
+              <span>${tickersData?.quotes.USD.price}</span>
             </OverviewItem>
           </Overview>
           <Description>{infoData?.description}</Description>
