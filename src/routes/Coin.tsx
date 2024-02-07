@@ -6,7 +6,7 @@ import {
   useParams,
   useRouteMatch,
 } from "react-router-dom";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import styled from "styled-components";
 import Price from "./Price";
 import Chart from "./Chart";

@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { createGlobalStyle } from "styled-components";
 import Router from "./Router";
 import { ReactQueryDevtools } from "react-query/devtools";
-import { Helmet } from "react-helmet";
+import { HelmetProvider, Helmet } from "react-helmet-async";
+import { ThemeProvider } from "styled-components";
+import { darkTheme, lightTheme } from "./theme";
 const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -66,17 +68,24 @@ a{
 `;
 
 function App() {
+  const [isDark, setIsDark] = useState(true);
+  const toggleDark = () => setIsDark((current) => !current);
   return (
     <>
-      <Helmet>
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400&display=swap"
-        />
-      </Helmet>
-      <GlobalStyle />
-      <Router />
-      <ReactQueryDevtools initialIsOpen={true} />
+      <HelmetProvider>
+        <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+          <Helmet>
+            <link
+              rel="stylesheet"
+              href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400&display=swap"
+            />
+          </Helmet>
+
+          <GlobalStyle />
+          <Router toggleDark={toggleDark} />
+          <ReactQueryDevtools initialIsOpen={true} />
+        </ThemeProvider>
+      </HelmetProvider>
     </>
   );
 }

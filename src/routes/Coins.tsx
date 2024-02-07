@@ -2,6 +2,7 @@ import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoins } from "../api";
+import { Helmet } from "react-helmet-async";
 const Title = styled.h1`
   font-size: 48px;
   color: ${(props) => props.theme.accentColor};
@@ -20,11 +21,12 @@ const Header = styled.header`
 `;
 const CoinsList = styled.ul``;
 const Coin = styled.li`
-  background-color: white;
-  color: ${(props) => props.theme.bgColor};
+  background-color: ${(props) => props.theme.cardBgColor};
+  color: ${(props) => props.theme.textColor};
   padding: 20px;
   border-radius: 15px;
   margin-bottom: 10px;
+  border: 1px solid white;
   a {
     /* 이것이 Link 니까 coin과 img의 부모 */
     display: flex;
@@ -51,14 +53,20 @@ interface ICoin {
   is_active: boolean;
   type: string;
 }
-
-function Coins() {
+interface ICoinsProps {
+  toggleDark: () => void;
+}
+function Coins({ toggleDark }: ICoinsProps) {
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
 
   return (
     <Container>
+      <Helmet>
+        <title>코인</title>
+      </Helmet>
       <Header>
         <Title> Coins</Title>
+        <button onClick={toggleDark}> Toggle Mode</button>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>
