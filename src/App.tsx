@@ -5,6 +5,9 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import { HelmetProvider, Helmet } from "react-helmet-async";
 import { ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "./theme";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "./atoms";
+
 const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -68,8 +71,7 @@ a{
 `;
 
 function App() {
-  const [isDark, setIsDark] = useState(true);
-  const toggleDark = () => setIsDark((current) => !current);
+  const isDark = useRecoilValue(isDarkAtom);
   return (
     <>
       <HelmetProvider>
@@ -82,7 +84,7 @@ function App() {
           </Helmet>
 
           <GlobalStyle />
-          <Router toggleDark={toggleDark} />
+          <Router />
           <ReactQueryDevtools initialIsOpen={true} />
         </ThemeProvider>
       </HelmetProvider>
