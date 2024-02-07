@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+/*
 
 function ToDoList() {
   const [toDo, setToDo] = useState("");
@@ -20,5 +22,84 @@ function ToDoList() {
     </div>
   );
 }
+*/
 
+interface Iform {
+  email: string;
+  firstName: string;
+  lastName: string;
+  username: string;
+  password1: string;
+  password: string;
+  extraError?: string;
+}
+
+function ToDoList() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+  } = useForm<Iform>({ defaultValues: { email: "@naver.com" } });
+  // console.log(watch());
+  const onValid = (data: Iform) => {
+    console.log(data);
+  };
+  console.log(errors);
+  return (
+    <div>
+      <form
+        style={{ display: "flex", flexDirection: "column" }}
+        onSubmit={handleSubmit(onValid)}
+      >
+        <input
+          {...register("email", {
+            required: "이메일 주소를 넣어주세요",
+            pattern: {
+              value: /^[A-Za-z0-9._%+-]+@naver.com$/,
+              message: "Only naver.com emails allowed",
+            },
+          })}
+          placeholder="Email"
+        />
+        <span>{errors?.email?.message}</span>
+        <input
+          {...register("firstName", { required: "이름을 넣어주세요." })}
+          placeholder="Fist Name"
+        />
+        <span>{errors?.firstName?.message}</span>
+        <input
+          {...register("lastName", { required: "성을 넣어주세요" })}
+          placeholder="Last Name"
+        />
+        <span>{errors?.lastName?.message}</span>
+        <input
+          {...register("username", {
+            required: "이 필드는 필수입니다.",
+            minLength: { value: 5, message: "your username is too short" },
+          })}
+          placeholder="User Name"
+        />
+        <span>{errors?.username?.message}</span>
+        <input
+          {...register("password", {
+            required: "password is required",
+            minLength: { value: 5, message: "your password is too short" },
+          })}
+          placeholder="Password"
+        />
+        <span>{errors?.password?.message}</span>
+        <input
+          {...register("password1", {
+            required: "password confirm is required",
+            minLength: { value: 5, message: "your password is too short" },
+          })}
+          placeholder="Password Confirm"
+        />
+        <span>{errors?.password1?.message}</span>
+        <button>Add</button>
+      </form>
+    </div>
+  );
+}
 export default ToDoList;
