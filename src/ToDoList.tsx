@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 /*
 
@@ -29,8 +29,8 @@ interface Iform {
   firstName: string;
   lastName: string;
   username: string;
-  password1: string;
   password: string;
+  password1: string;
   extraError?: string;
 }
 
@@ -43,9 +43,19 @@ function ToDoList() {
   } = useForm<Iform>({ defaultValues: { email: "@naver.com" } });
   // console.log(watch());
   const onValid = (data: Iform) => {
-    console.log(data);
+    // console.log(data);
+
+    if (data.password !== data.password1) {
+      setError(
+        "password1",
+        { message: "Password are not the same" },
+        { shouldFocus: true }
+      );
+    }
+
+    //setError("extraError", { message: "Server offline." });
   };
-  console.log(errors);
+
   return (
     <div>
       <form
@@ -77,6 +87,12 @@ function ToDoList() {
           {...register("username", {
             required: "이 필드는 필수입니다.",
             minLength: { value: 5, message: "your username is too short" },
+            validate: {
+              noMoon: (value) =>
+                value.includes("moon") ? "no moon allowed" : true,
+              noNick: (value) =>
+                value.includes("nico") ? "no nico allowed" : true,
+            },
           })}
           placeholder="User Name"
         />
@@ -98,6 +114,7 @@ function ToDoList() {
         />
         <span>{errors?.password1?.message}</span>
         <button>Add</button>
+        <span>{errors?.extraError?.message}</span>
       </form>
     </div>
   );
