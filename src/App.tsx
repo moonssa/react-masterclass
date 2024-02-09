@@ -4,7 +4,7 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import { HelmetProvider, Helmet } from "react-helmet-async";
 import { ThemeProvider } from "styled-components";
 import { darkTheme } from "./theme";
-import ToDoList from "./ToDoList";
+import ToDoList from "./components/ToDoList";
 
 const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
