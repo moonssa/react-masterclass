@@ -17,7 +17,7 @@ const Wrapper = styled.div`
 const Boards = styled.div`
   display: grid;
   width: 100%;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   grid-gap: 10px;
 `;
 
@@ -35,6 +35,19 @@ function App() {
         copyBoard.splice(destination?.index, 0, draggableId);
 
         return { ...allBoards, [source.droppableId]: copyBoard };
+      });
+    }
+    if (source.droppableId !== destination?.droppableId) {
+      setToDos((allBoards) => {
+        const sourceBoard = [...allBoards[source.droppableId]];
+        const targetBoard = [...allBoards[destination.droppableId]];
+        sourceBoard.splice(source.index, 1);
+        targetBoard.splice(destination.index, 0, draggableId);
+        return {
+          ...allBoards,
+          [source.droppableId]: sourceBoard,
+          [destination.droppableId]: targetBoard,
+        };
       });
     }
   };
