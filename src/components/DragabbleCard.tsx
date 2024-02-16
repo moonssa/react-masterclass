@@ -29,4 +29,5 @@ function DraggableCard({ toDo, index }: IDraggableCardProps) {
     </Draggable>
   );
 }
+
 export default React.memo(DraggableCard);
