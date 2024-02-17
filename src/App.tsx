@@ -28,11 +28,13 @@ function App() {
     console.log(info);
     const { destination, source, draggableId } = info;
     if (!destination) return;
+
     if (source.droppableId === destination?.droppableId) {
       setToDos((allBoards) => {
         const copyBoard = [...allBoards[source.droppableId]];
+        const taskObj = copyBoard[source.index];
         copyBoard.splice(source.index, 1);
-        copyBoard.splice(destination?.index, 0, draggableId);
+        copyBoard.splice(destination?.index, 0, taskObj);
 
         return { ...allBoards, [source.droppableId]: copyBoard };
       });
@@ -40,9 +42,10 @@ function App() {
     if (source.droppableId !== destination?.droppableId) {
       setToDos((allBoards) => {
         const sourceBoard = [...allBoards[source.droppableId]];
+        const taskObj = sourceBoard[source.index];
         const targetBoard = [...allBoards[destination.droppableId]];
         sourceBoard.splice(source.index, 1);
-        targetBoard.splice(destination.index, 0, draggableId);
+        targetBoard.splice(destination.index, 0, taskObj);
         return {
           ...allBoards,
           [source.droppableId]: sourceBoard,
@@ -50,6 +53,8 @@ function App() {
         };
       });
     }
+
+    return;
   };
   return (
     <DragDropContext onDragEnd={onDragEnd}>
