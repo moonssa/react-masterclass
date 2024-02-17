@@ -59,7 +59,8 @@ table {
 }
 body {
   font-family: 'Source Sans 3', sans-serif;
-  background-color: ${(props) => props.theme.bgColor};
+  /* background: linear-gradient(135deg, #e09, #d0e); */
+  background: linear-gradient(135deg, #e09, #5B00D8);
   color: black;
 }
 a{
@@ -73,12 +74,12 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  //<React.StrictMode>
-  <RecoilRoot>
-    <ThemeProvider theme={darkTheme}>
-      <GlobalStyle />
-      <App />
-    </ThemeProvider>
-  </RecoilRoot>
-  // {/* </React.StrictMode> */}
+  <React.StrictMode>
+    <RecoilRoot>
+      <ThemeProvider theme={darkTheme}>
+        <GlobalStyle />
+        <App />
+      </ThemeProvider>
+    </RecoilRoot>
+  </React.StrictMode>
 );
