@@ -9,15 +9,6 @@ import {
 } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
-const Wrapper = styled(motion.div)`
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
 const BiggerBox = styled.div`
   width: 600px;
   height: 600px;
@@ -27,18 +18,6 @@ const BiggerBox = styled.div`
   justify-content: center;
   align-items: center;
   overflow: hidden;
-`;
-const Box = styled(motion.div)`
-  width: 400px;
-  height: 200px;
-  top: 100px;
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(255, 255, 255, 1);
-  border-radius: 20px;
-  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
 `;
 
 const Svg = styled.svg`
@@ -106,34 +85,49 @@ const boxSlideVariants = {
     },
   }),
 };
-function App() {
-  const [showing, setShowing] = useState(1);
-  const [back, setBack] = useState(false);
-  const nextPlease = () => {
-    setBack(false);
-    setShowing((prev) => (prev === 10 ? 10 : prev + 1));
-  };
-  const prevPlease = () => {
-    setBack(true);
-    setShowing((prev) => (prev === 1 ? 1 : prev - 1));
-  };
+const Wrapper = styled(motion.div)`
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  /* flex-direction: column; */
+  justify-content: space-evenly;
+  align-items: center;
+`;
 
+const Box = styled(motion.div)`
+  width: 200px;
+  height: 200px;
+  /* top: 100px; */
+  /* position: absolute; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 20px;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
+`;
+const Circle = styled(motion.div)`
+  background-color: #00a5ff;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
+`;
+function App() {
+  const [clicked, setClicked] = useState(false);
+  const toggleClicked = () => setClicked((prev) => !prev);
   return (
-    <Wrapper>
-      <AnimatePresence custom={back}>
-        <Box
-          custom={back}
-          variants={boxSlideVariants}
-          initial="entry"
-          animate="center"
-          exit="exit"
-          key={showing}
-        >
-          {showing}
-        </Box>
-      </AnimatePresence>
-      <button onClick={nextPlease}>Next</button>
-      <button onClick={prevPlease}>Prev</button>
+    <Wrapper onClick={toggleClicked}>
+      <Box>
+        {!clicked ? (
+          <Circle layoutId="circle" style={{ borderRadius: 50, scale: 1 }} />
+        ) : null}
+      </Box>
+      <Box>
+        {clicked ? (
+          <Circle layoutId="circle" style={{ borderRadius: 0, scale: 2 }} />
+        ) : null}
+      </Box>
     </Wrapper>
   );
 }
